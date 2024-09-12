@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من سيربح الكلسون</title>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #ff0000, #000000);
+            background-size: 400% 400%;
+            animation: gradientBackground 10s ease infinite;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px black;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(45deg, red, yellow, blue, green, purple, pink, red);
+            background-size: 600% 600%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGradient 10s ease infinite;
+        }
+
+        @keyframes textGradient {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .intro {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .sub-intro {
+            font-size: 20px;
+            color: white;
+            margin-bottom: 40px;
+            padding: 10px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            background-image: linear-gradient(45deg, black, red);
+            background-size: 600% 600%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: subTextGradient 10s ease infinite;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+        }
+
+        @keyframes subTextGradient {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .question-container {
+            background-color: rgba(51, 51, 51, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.7);
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .answer {
+            background-color: #444;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .answer:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+
+        .hidden-answer {
+            display: none; /* Hide the correct answer */
+        }
+
+        .result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .win {
+            color: lime;
+        }
+
+        .lose {
+            color: red;
+        }
+
+        .subscribe-btn {
+            margin-top: 40px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        }
+
+        .subscribe-btn:hover {
+            transform: scale(1.1);
+            background-color: #fff;
+            color: #ff0000;
+        }
+
+        /* Hide audio controls but keep audio playing */
+        audio {
+            display: none;
+        }
+
+        /* Container for images */
+        .image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none; /* To prevent interaction */
+            z-index: -1; /* Ensure images are behind other content */
+        }
+
+        .image-container img {
+            width: 150px; /* Adjust size as needed */
+            height: auto;
+            border: 5px solid #ffcc00;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+            animation: verticalMove 3s ease-in-out infinite;
+        }
+
+        @keyframes verticalMove {
+            0%, 100% {
+                transform: translateY(-20px);
+            }
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        /* Music control button */
+        .music-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 1; /* Ensure button is above other content */
+        }
+
+        .music-btn:hover {
+            background-color: #fff;
+            color: #ff0000;
+            transform: scale(1.1);
+        }
+
+        /* Button for revealing answer */
+        .reveal-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 1; /* Ensure button is above other content */
+        }
+
+        .reveal-btn:hover {
+            background-color: #fff;
+            color: #ff0000;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio element for background music -->
+    <audio id="background-music" autoplay loop>
+        <source src="GTA San Andreas Pornhub Theme Full(MP3_160K).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music control button -->
+    <button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+    <!-- Button for revealing answer -->
+    <button class="reveal-btn" onclick="revealAnswer()">🔍</button>
+
+    <!-- Container for images -->
+    <div class="image-container">
+        <img src="marvels-spider-man-pc-games-playstation-4-playstation-5-7680x3292-8652.jpg" alt="Left Image">
+        <img src="marvels-spider-man-2-3840x2160-18284.jpg" alt="Right Image">
+    </div>
+
+    <h1>peace! معاكم سبيادر و من كثرة ما حواني الفيد خدمتلكم هذي اللعبة</h1>
+    <div class="intro">استمتع باللعبة!</div>
+    <div class="sub-intro">hello! معاكم الشيكور سبايدر و من كثرة ما حواني الفيد درتلكم هذي اللعبة و يدكم فيه</div>
+
+    <div class="question-container">
+        <h2>ماهي اقوى نظرية في التاريخ ؟ (  my pov) 🦦</h2>
+        <div class="answers">
+            <div class="answer" onclick="checkAnswer(false)">نظرية عبدو لي دخلهولك و جبدو 🌝</div>
+            <div class="answer" onclick="checkAnswer(false)">نظرية الالف و الراء الي بتخلي الغالي زي الببغاء🍌</div>
+            <div class="answer" onclick="checkAnswer(false)">نظرية حويناك في الظلمة عمرك تشوف النعمة</div>
+            <div class="answer" onclick="checkAnswer(false)">نظرية الطبابن ضاعو و الترامي وساعو و زبوبا جاعو</div>
+            <div class="answer" onclick="checkAnswer(false)">نظرية نيكك بالزب الشتى تصب</div>
+            <div class="answer" onclick="checkAnswer(false)">نظرية لي ضربنالو قاعو مايهمنا صداعو</div>
+            <div class="answer" onclick="checkAnswer(false)">نظرية البحار حتشونك صرى فيه انفجار💥</div>
+        </div>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <button class="subscribe-btn" onclick="window.location.href='https://instagram.com'">ابوني هنا</button>
+
+    <script>
+        let clickCount = 0;
+
+        function revealAnswer() {
+            clickCount++;
+            if (clickCount === 3) {
+                alert("الإجابة الصحيحة هي نظرية الزين و الدين و التكفات بزوج يدين");
+                document.getElementById('result').innerHTML = "<div class='win'>الإجابة صحيحة!<br>Game Over</div>";
+                clickCount = 0; // Reset click count after revealing
+            }
+        }
+
+        function checkAnswer(isCorrect) {
+            if (isCorrect) {
+                document.getElementById('result').innerHTML = "<div class='win'>الإجابة صحيحة!<br>Game Over</div>";
+            } else {
+                document.getElementById('result').innerHTML = "<div class='lose'>الإجابة خاطئة، حاول مرة أخرى. (حوس مليح يا النقش كاين فخ)</div>";
+            }
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('background-music');
+            if (music.paused) {
+                music.play();
+                document.querySelector('.music-btn').innerText = '🎵';
+            } else {
+                music.pause();
+                document.querySelector('.music-btn').innerText = '🔇';
+            }
+        }
+    </script>
+</body>
+</html>
